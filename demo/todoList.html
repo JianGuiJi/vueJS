@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODOList</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <div>
+
+        <input v-model="inputValue"/>
+        <button @click="handleSubmit">提交</button>
+        <ul>
+            <li v-for="(item,index) of list" :key="index">
+                {{item}}
+            </li>
+        </ul>
+        组件：
+        <ul>
+            <todo-item
+                    v-for="(item,index) of list"
+                    :key="index"
+                    :content="item"
+                    :index="index+1" @delete="handleDelete">
+
+            </todo-item>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    //组件:组件内可以的定义自己的属性，事件方法，即组件其实也是一个Vue实例
+    Vue.component('todo-item', {
+        props: ['content', 'index'],
+        template: '<li @click="handleClick">{{index}}、{{content}}</li>',
+        methods: {
+            handleClick: function () {
+                //触发当前实例上的事件,向父组件传递是 delete 事件，前提是父组件订阅了delete 方法
+                this.$emit('delete', this.index - 1);
+//                vm.$on('delete', fn );//监听 event 事件后运行 fn
+
+            }
+        }
+    });
+
+    new Vue({
+        el: "#root",
+        data: {
+            inputValue: 'hello',
+            list: [],
+        },
+        //计算属性
+        computed: {},
+        //监听器
+        watch: {},
+        //没定义模板，则认为挂载点的html 则是其模板
+        //方法
+        methods: {
+            handleSubmit: function () {
+                this.list.push(this.inputValue);
+                this.inputValue = '';
+            },
+            handleDelete: function (index) {
+                alert('delete' + index);
+                this.list.splice(index, 1);//删除
+            }
+
+        }
+
+    });
+</script>
+
+
+</body>
+</html>

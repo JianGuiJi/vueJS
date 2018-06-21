@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <div>
+        FirstName：<input v-model="firstName" />LastName:<input v-model="lastName"/>
+        <div>Name：{{fullName}} </div><div>变更次数：{{count}}</div>
+        <input v-model="inputValue" />
+
+    </div>
+
+</div>
+<script>
+
+    new Vue({
+        el:"#root",
+        data:{
+            firstName:'',
+            lastName:'',
+            inputValue:'',
+            list:[],
+            count:0,
+        },
+        //计算属性
+        computed:{
+            fullName: function () {
+                return  this.firstName+" "+this.lastName;
+            }
+        },
+        //监听器
+        watch:{
+//            firstName: function () {
+//                this.count++;
+//            },
+//            lastName:function(){
+//                this.count++;
+//            },
+            fullName: function () {
+                this.count++;
+            }
+
+        },
+        //方法
+        methods:{
+            handleSubmit: function () {
+                alert('成功');
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
